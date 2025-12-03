@@ -3,7 +3,7 @@
 return [
     'db' => [
         'host'    => '127.0.0.1',
-        'name'    => 'ecommerce_mvc',
+        'name'    => 'ecommerce_mvc1',
         'user'    => 'root',    // XAMPP default
         'pass'    => '',        // XAMPP default is empty
         'charset' => 'utf8mb4',
