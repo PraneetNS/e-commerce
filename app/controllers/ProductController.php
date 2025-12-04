@@ -144,5 +144,19 @@ public function delete(int $id): void
     $_SESSION['success'] = "Product deleted successfully";
     $this->redirect('/product/index');
 }
+public function show(int $id): void
+{
+    $productModel = new Product();
+    $product = $productModel->find($id);
+
+    if (!$product) {
+        $_SESSION['error'] = "Product not found";
+        $this->redirect('/home/index');
+    }
+
+    $this->view('product/show', [
+        'product' => $product
+    ]);
+}
 
 }

@@ -24,7 +24,8 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function view(int $orderId): void
+    public function details(int $orderId): void
+
     {
         if (empty($_SESSION['user'])) {
             $_SESSION['error'] = "Login required.";

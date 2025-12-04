@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <title><?= isset($title) ? htmlspecialchars($title) : 'MyShop' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- You can add Bootstrap / Tailwind CSS here later -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 <header>
@@ -18,6 +19,8 @@ $baseUrl = rtrim($config['app']['base_url'], '/');
 
 <nav>
     <a href="<?= $baseUrl ?>/cart/index">Cart (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a> |
+| <a href="<?= $baseUrl ?>/orders/index">My Orders</a>
+| <a href="<?= $baseUrl ?>/adminOrder/index">Orders</a>
 
     <a href="<?= $baseUrl ?>/home/index">Home</a> |
     <?php if (!empty($_SESSION['user'])): ?>
@@ -47,5 +50,8 @@ $baseUrl = rtrim($config['app']['base_url'], '/');
     <hr>
     <p>&copy; <?= date('Y') ?> MyShop</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<body class="container mt-4">
+
 </body>
 </html>

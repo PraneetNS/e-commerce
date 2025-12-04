@@ -32,3 +32,39 @@
     <textarea name="address" required></textarea><br><br>
     <button type="submit">Place Order</button>
 </form>
+<form action="/ecommerce-mvc/public/checkout/placeOrder" method="post">
+    <label>Shipping Address:</label><br>
+    <textarea name="address" class="form-control mb-3" required></textarea>
+<button id="payBtn" class="btn btn-primary">Pay Now</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_YOURKEYHERE",
+    "amount": "<?= $grand * 100 ?>",
+    "currency": "INR",
+    "name": "Ecommerce MVC",
+    "description": "Order Payment",
+    "handler": function (response){
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = "/ecommerce-mvc/public/payment/success";
+
+        form.innerHTML = `
+            <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+            <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+            <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+        `;
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+};
+var rzp1 = new Razorpay(options);
+
+document.getElementById("payBtn").onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+
