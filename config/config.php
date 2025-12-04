@@ -10,7 +10,8 @@ return [
     ],
 
     'app' => [
-        'name' => 'MyShop',
-        'base_url' => 'http://localhost/ecommerce-mvc/public', // adjust if needed
-    ],
+    'name' => 'MyShop',
+    'base_url' => 'http://localhost/ecommerce-mvc/public'
+],
+
 ];

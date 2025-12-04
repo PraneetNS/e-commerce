@@ -34,11 +34,15 @@ abstract class Controller
         require $viewFile;
     }
 
-    protected function redirect(string $url): void
-    {
-        header('Location: ' . $url);
-        exit;
-    }
+   protected function redirect(string $url): void
+{
+    $config = require dirname(__DIR__, 2) . '/config/config.php';
+    $baseUrl = rtrim($config['app']['base_url'], '/');
+    header('Location: ' . $baseUrl . $url);
+    exit;
+}
+
+
 
     protected function json(array $data, int $statusCode = 200): void
     {

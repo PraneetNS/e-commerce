@@ -11,11 +11,25 @@
 </head>
 <body>
 <header>
-    <nav>
-        <a href="/home/index">Home</a> |
-        <a href="/home/about">About</a>
-        <!-- Later: Products, Cart, Login, Admin, etc. -->
-    </nav>
+    <?php
+$config = require dirname(__DIR__, 3) . '/config/config.php';
+$baseUrl = rtrim($config['app']['base_url'], '/');
+?>
+
+<nav>
+    <a href="<?= $baseUrl ?>/home/index">Home</a> |
+
+    <?php if (!empty($_SESSION['user'])): ?>
+        <span>Hi, <?= htmlspecialchars($_SESSION['user']['name']) ?></span> |
+        <a href="<?= $baseUrl ?>/auth/logout">Logout</a>
+    <?php else: ?>
+        <a href="<?= $baseUrl ?>/auth/login">Login</a> |
+        <a href="<?= $baseUrl ?>/auth/register">Register</a>
+    <?php endif; ?>
+</nav>
+<hr>
+
+
     <hr>
 </header>
 
