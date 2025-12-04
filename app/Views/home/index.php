@@ -4,16 +4,15 @@
 <?php if (!empty($products)): ?>
     <h2>Featured Products</h2>
     <ul>
-        <?php foreach ($products as $product): ?>
-            <li>
-                <strong><?= htmlspecialchars($product['name']) ?></strong>
-                – ₹<?= htmlspecialchars($product['price']) ?>
-                <?php if (!empty($product['category_name'])): ?>
-                    (<?= htmlspecialchars($product['category_name']) ?>)
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+<?php foreach ($products as $product): ?>
+    <li>
+        <strong><?= htmlspecialchars($product['name']) ?></strong>
+        – ₹<?= htmlspecialchars($product['price']) ?>
+        <a href="/ecommerce-mvc/public/cart/add/<?= $product['id'] ?>">Add to Cart</a>
+    </li>
+<?php endforeach; ?>
+</ul>
+
 <?php else: ?>
     <p>No featured products yet.</p>
 <?php endif; ?>

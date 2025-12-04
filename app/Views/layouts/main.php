@@ -17,16 +17,22 @@ $baseUrl = rtrim($config['app']['base_url'], '/');
 ?>
 
 <nav>
-    <a href="<?= $baseUrl ?>/home/index">Home</a> |
+    <a href="<?= $baseUrl ?>/cart/index">Cart (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a> |
 
+    <a href="<?= $baseUrl ?>/home/index">Home</a> |
     <?php if (!empty($_SESSION['user'])): ?>
         <span>Hi, <?= htmlspecialchars($_SESSION['user']['name']) ?></span> |
+        <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+            <a href="<?= $baseUrl ?>/admin/index">Admin Panel</a> |
+        <?php endif; ?>
         <a href="<?= $baseUrl ?>/auth/logout">Logout</a>
     <?php else: ?>
         <a href="<?= $baseUrl ?>/auth/login">Login</a> |
         <a href="<?= $baseUrl ?>/auth/register">Register</a>
     <?php endif; ?>
 </nav>
+<hr>
+
 <hr>
 
 
