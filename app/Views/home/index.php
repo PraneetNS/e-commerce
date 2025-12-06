@@ -7,6 +7,30 @@
 <?php endforeach; ?>
 </div>
 
+<form action="/ecommerce-mvc/public/home/filter" method="get" class="row mb-4">
+
+    <div class="col-md-3">
+        <input type="number" name="min" class="form-control" placeholder="Min Price">
+    </div>
+
+    <div class="col-md-3">
+        <input type="number" name="max" class="form-control" placeholder="Max Price">
+    </div>
+
+    <div class="col-md-3">
+        <select name="sort" class="form-control">
+            <option value="">Sort By</option>
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+            <option value="newest">Newest</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-primary w-100">Apply</button>
+    </div>
+
+</form>
 
 
 <h1 class="mb-4">Featured Products</h1>
@@ -22,6 +46,8 @@
             <h5 class="card-title"><?= $p['name'] ?></h5>
             <p class="card-text">₹<?= $p['price'] ?></p>
             <a href="/ecommerce-mvc/public/product/show/<?= $p['id'] ?>" class="btn btn-primary">View Details</a>
+            <a href="/ecommerce-mvc/public/wishlist/add/<?= $p['id'] ?>" class="btn btn-outline-danger btn-sm">❤️ Wishlist</a>
+
         </div>
     </div>
 </div>

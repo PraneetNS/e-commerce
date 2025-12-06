@@ -95,5 +95,33 @@ public function getByCategory(int $categoryId): array
     $stmt->execute(['cid' => $categoryId]);
     return $stmt->fetchAll();
 }
+public function filterProducts(?string $min, ?string $max, ?string $sort): array
+{
+    $sql = "SELECT * FROM products WHERE 1=1";
+    $params = [];
+
+    if (!empty($min)) {
+        $sql .= " AND price >= :min";
+        $params['min'] = $min;
+    }
+
+    if (!empty($max)) {
+        $sql .= " AND price <= :max";
+        $params['max'] = $max;
+    }
+
+    if ($sort === "low-high") {
+        $sql .= " ORDER BY price ASC";
+    } elseif ($sort === "high-low") {
+        $sql .= " ORDER BY price DESC";
+    } elseif ($sort === "newest") {
+        $sql .= " ORDER BY created_at DESC";
+    }
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute($params);
+
+    return $stmt->fetchAll();
+}
 
 }

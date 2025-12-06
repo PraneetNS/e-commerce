@@ -18,3 +18,29 @@
         <a href="/ecommerce-mvc/public/home/index" class="btn btn-secondary">Back</a>
     </div>
 </div>
+<hr>
+<h3>Reviews</h3>
+
+<?php foreach ($reviews as $r): ?>
+    <p><strong><?= $r['name'] ?>:</strong> ⭐<?= $r['rating'] ?>/5</p>
+    <p><?= $r['review'] ?></p>
+    <hr>
+<?php endforeach; ?>
+
+<?php if (!empty($_SESSION['user'])): ?>
+<form action="/ecommerce-mvc/public/review/add/<?= $product['id'] ?>" method="post">
+    <label>Rating</label>
+    <select name="rating" class="form-control w-25">
+        <option>1</option><option>2</option><option>3</option>
+        <option>4</option><option>5</option>
+    </select>
+    <br>
+
+    <label>Review</label>
+    <textarea name="review" class="form-control"></textarea>
+    <br>
+    <button class="btn btn-primary">Submit</button>
+</form>
+<?php else: ?>
+    <p><a href="/ecommerce-mvc/public/auth/login">Login</a> to write a review</p>
+<?php endif; ?>

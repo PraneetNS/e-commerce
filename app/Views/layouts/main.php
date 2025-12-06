@@ -19,6 +19,8 @@ $baseUrl = rtrim($config['app']['base_url'], '/');
 
 <nav>
     <a href="<?= $baseUrl ?>/cart/index">Cart (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a> |
+    | <a href="<?= $baseUrl ?>/wishlist/index">Wishlist (<?= isset($_SESSION['wishlist']) ? count($_SESSION['wishlist']) : 0 ?>)</a>
+
 | <a href="<?= $baseUrl ?>/orders/index">My Orders</a>
 | <a href="<?= $baseUrl ?>/adminOrder/index">Orders</a>
 

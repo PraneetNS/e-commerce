@@ -43,5 +43,22 @@ class HomeController extends Controller
         'categories' => $categories
     ]);
 }
+public function filter(): void
+{
+    $min  = $_GET['min'] ?? null;
+    $max  = $_GET['max'] ?? null;
+    $sort = $_GET['sort'] ?? null;
+
+    $productModel = new Product();
+    $products = $productModel->filterProducts($min, $max, $sort);
+
+    $catModel = new Category();
+    $categories = $catModel->all();
+
+    $this->view('home/index', [
+        'products' => $products,
+        'categories' => $categories
+    ]);
+}
 
 }
