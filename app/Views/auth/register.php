@@ -6,6 +6,7 @@
 <?php endif; ?>
 
 <form action="<?= $baseUrl ?>/auth/registerSubmit" method="post">
+<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
 
     <label>Name:</label><br>

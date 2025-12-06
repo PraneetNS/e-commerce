@@ -130,5 +130,9 @@ public function related(int $categoryId, int $excludeId): array
     $stmt->execute(['cid' => $categoryId, 'pid' => $excludeId]);
     return $stmt->fetchAll();
 }
+public function countProducts(): int
+{
+    return (int)$this->db->query("SELECT COUNT(*) FROM products")->fetchColumn();
+}
 
 }

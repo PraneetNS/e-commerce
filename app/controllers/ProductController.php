@@ -153,6 +153,9 @@ public function show(int $id): void
         $_SESSION['error'] = "Product not found";
         $this->redirect('/home/index');
     }
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("Invalid CSRF token");
+}
 
     // Track recently viewed
     $_SESSION['recently_viewed'][$id] = $product;

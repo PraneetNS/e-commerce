@@ -41,4 +41,9 @@ class User extends Model
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
+    public function countUsers(): int
+{
+    return (int)$this->db->query("SELECT COUNT(*) FROM users")->fetchColumn();
+}
+
 }

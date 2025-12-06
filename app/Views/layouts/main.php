@@ -29,6 +29,8 @@ $baseUrl = rtrim($config['app']['base_url'], '/');
         <span>Hi, <?= htmlspecialchars($_SESSION['user']['name']) ?></span> |
         <?php if ($_SESSION['user']['role'] === 'admin'): ?>
             <a href="<?= $baseUrl ?>/admin/index">Admin Panel</a> |
+            | <a href="<?= $baseUrl ?>/adminDashboard/index">Dashboard</a>
+
         <?php endif; ?>
         <a href="<?= $baseUrl ?>/auth/logout">Logout</a>
     <?php else: ?>

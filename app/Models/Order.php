@@ -93,5 +93,25 @@ public function markPaid(int $orderId, string $paymentId): bool
         'id'  => $orderId
     ]);
 }
+public function countOrders(): int
+{
+    return (int)$this->db->query("SELECT COUNT(*) FROM orders")->fetchColumn();
+}
+
+public function totalRevenue(): float
+{
+    return (float)$this->db->query("SELECT SUM(total) FROM orders WHERE status='paid' OR status='completed'")->fetchColumn();
+}
+
+public function monthlyStats(): array
+{
+    $sql = "SELECT DATE_FORMAT(created_at, '%b') as month, SUM(total) as revenue
+            FROM orders
+            WHERE status='paid' OR status='completed'
+            GROUP BY MONTH(created_at)";
+    $stmt = $this->db->query($sql);
+    return $stmt->fetchAll();
+}
+
 
 }

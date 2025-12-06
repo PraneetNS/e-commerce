@@ -5,6 +5,7 @@
 <?php endif; ?>
 
 <form action="/ecommerce-mvc/public/product/store" method="post" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
     <label>Name</label><br>
     <input type="text" name="name" required><br><br>
