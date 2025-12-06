@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controllers;
+use App\Models\Category;
 
 use App\Core\Controller;
 use App\Models\Product;
@@ -9,16 +10,19 @@ use App\Models\Product;
 class HomeController extends Controller
 {
     public function index(): void
-    {
-        $productModel = new Product();
-        $featuredProducts = $productModel->getFeatured(4);
+{
+    $productModel = new Product();
+    $products = $productModel->getFeatured(8);
 
-        $this->view('home/index', [
-            'title'   => 'MyShop – Custom PHP E-commerce',
-            'message' => 'Your custom MVC with DB is running 🎉',
-            'products' => $featuredProducts,
-        ]);
-    }
+    $catModel = new Category();
+    $categories = $catModel->all();
+
+    $this->view('home/index', [
+        'products' => $products,
+        'categories' => $categories
+    ]);
+}
+
 
     public function about(): void
     {
@@ -26,4 +30,18 @@ class HomeController extends Controller
             'title' => 'About MyShop',
         ]);
     }
+    public function category(int $id): void
+{
+    $productModel = new Product();
+    $products = $productModel->getByCategory($id);
+
+    $catModel = new Category();
+    $categories = $catModel->all();
+
+    $this->view('home/index', [
+        'products'   => $products,
+        'categories' => $categories
+    ]);
+}
+
 }

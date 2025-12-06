@@ -88,4 +88,12 @@ public function deleteProduct(int $id): bool
     return $stmt->execute(['id' => $id]);
 
 }
+public function getByCategory(int $categoryId): array
+{
+    $sql = "SELECT * FROM products WHERE category_id = :cid ORDER BY created_at DESC";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute(['cid' => $categoryId]);
+    return $stmt->fetchAll();
+}
+
 }

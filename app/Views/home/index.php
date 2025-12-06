@@ -1,3 +1,14 @@
+<h3>Categories</h3>
+<div class="mb-3">
+<?php foreach ($categories as $c): ?>
+    <a href="/ecommerce-mvc/public/home/category/<?= $c['id'] ?>" class="btn btn-outline-primary btn-sm">
+        <?= $c['name'] ?>
+    </a>
+<?php endforeach; ?>
+</div>
+
+
+
 <h1 class="mb-4">Featured Products</h1>
 
 <div class="row">
