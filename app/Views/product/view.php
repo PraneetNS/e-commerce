@@ -44,3 +44,22 @@
 <?php else: ?>
     <p><a href="/ecommerce-mvc/public/auth/login">Login</a> to write a review</p>
 <?php endif; ?>
+<?php if (!empty($_SESSION['recently_viewed'])): ?>
+<hr>
+<h3>Recently Viewed</h3>
+<div class="row">
+<?php foreach ($_SESSION['recently_viewed'] as $rv): ?>
+    <?php if ($rv['id'] != $product['id']): ?>
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <img src="/ecommerce-mvc/public<?= $rv['image'] ?>" class="card-img-top" style="height:150px; object-fit:cover;">
+                <div class="card-body">
+                    <p><?= $rv['name'] ?></p>
+                    <a href="/ecommerce-mvc/public/product/show/<?= $rv['id'] ?>" class="btn btn-primary btn-sm">View</a>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+</div>
+<?php endif; ?>

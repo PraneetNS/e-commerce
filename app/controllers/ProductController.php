@@ -154,9 +154,26 @@ public function show(int $id): void
         $this->redirect('/home/index');
     }
 
+    // Track recently viewed
+    $_SESSION['recently_viewed'][$id] = $product;
+    // Keep only last 5 items
+    $_SESSION['recently_viewed'] = array_slice($_SESSION['recently_viewed'], -5, 5, true);
+
+    $reviewModel = new Review();
+    $reviews = $reviewModel->getByProduct($id);
+
     $this->view('product/show', [
-        'product' => $product
+        'product' => $product,
+        'reviews' => $reviews
     ]);
 }
+public function related(int $categoryId, int $excludeId): array
+{
+    $sql = "SELECT * FROM products WHERE category_id = :cid AND id != :pid LIMIT 4";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute(['cid' => $categoryId, 'pid' => $excludeId]);
+    return $stmt->fetchAll();
+}
+
 
 }
