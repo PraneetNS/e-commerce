@@ -123,5 +123,12 @@ public function filterProducts(?string $min, ?string $max, ?string $sort): array
 
     return $stmt->fetchAll();
 }
+public function related(int $categoryId, int $excludeId): array
+{
+    $sql = "SELECT * FROM products WHERE category_id = :cid AND id != :pid LIMIT 4";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute(['cid' => $categoryId, 'pid' => $excludeId]);
+    return $stmt->fetchAll();
+}
 
 }

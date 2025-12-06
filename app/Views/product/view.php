@@ -56,6 +56,8 @@
                 <div class="card-body">
                     <p><?= $rv['name'] ?></p>
                     <a href="/ecommerce-mvc/public/product/show/<?= $rv['id'] ?>" class="btn btn-primary btn-sm">View</a>
+                    $related = $productModel->related($product['category_id'], $id);
+
                 </div>
             </div>
         </div>
@@ -63,3 +65,21 @@
 <?php endforeach; ?>
 </div>
 <?php endif; ?>
+<?php if (!empty($related)): ?>
+<hr>
+<h3>Recommended Products</h3>
+<div class="row">
+<?php foreach ($related as $rp): ?>
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <img src="/ecommerce-mvc/public<?= $rp['image'] ?>" class="card-img-top" style="height:150px; object-fit:cover;">
+            <div class="card-body">
+                <p><?= $rp['name'] ?></p>
+                <a href="/ecommerce-mvc/public/product/show/<?= $rp['id'] ?>" class="btn btn-outline-primary btn-sm">View</a>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>
+<?php endif; ?>
+

@@ -20,19 +20,21 @@ class Order extends Model
         return (int)$this->db->lastInsertId();
     }
 
-    public function addOrderItem(int $orderId, int $productId, $price, int $qty): void
+    public function addOrderItem(int $orderId, int $productId, float $price, int $qty): void
+{
+    $stmt = $this->db->prepare("INSERT INTO order_items (order_id, product_id, price, qty) VALUES (:oid, :pid, :price, :qty)");
+    $stmt->execute([
+        'oid' => $orderId,
+        'pid' => $productId,
+        'price' => $price,
+        'qty' => $qty
+    ]);
 
-    {
-        $sql = "INSERT INTO order_items (order_id, product_id, price, qty)
-                VALUES (:order_id, :product_id, :price, :qty)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            'order_id' => $orderId,
-            'product_id' => $productId,
-            'price' => $price,
-            'qty' => $qty
-        ]);
-    }
+    // Decrease stock
+    $stockUpdate = $this->db->prepare("UPDATE products SET stock = stock - :qty WHERE id = :pid");
+    $stockUpdate->execute(['qty' => $qty, 'pid' => $productId]);
+}
+
     public function getOrdersByUser(int $userId): array
 {
     $sql = "SELECT * FROM orders WHERE user_id = :uid ORDER BY created_at DESC";

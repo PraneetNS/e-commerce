@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controllers;
-
+use App\Models\Review;
 use App\Core\Controller;
 use App\Models\Product;
 
@@ -166,13 +166,6 @@ public function show(int $id): void
         'product' => $product,
         'reviews' => $reviews
     ]);
-}
-public function related(int $categoryId, int $excludeId): array
-{
-    $sql = "SELECT * FROM products WHERE category_id = :cid AND id != :pid LIMIT 4";
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute(['cid' => $categoryId, 'pid' => $excludeId]);
-    return $stmt->fetchAll();
 }
 
 
