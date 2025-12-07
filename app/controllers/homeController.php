@@ -21,6 +21,14 @@ class HomeController extends Controller
         'products' => $products,
         'categories' => $categories
     ]);
+    $page = $_GET['page'] ?? 1;
+$limit = 8;
+$start = ($page - 1) * $limit;
+
+$products = $productModel->paginate($start, $limit);
+$total = $productModel->countProducts();
+$pages = ceil($total / $limit);
+
 }
 
 

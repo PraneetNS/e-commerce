@@ -1,13 +1,20 @@
 <?php
 declare(strict_types=1);
 
+
+
 namespace App\Controllers;
+use App\Middleware\Auth;
 use App\Models\Review;
 use App\Core\Controller;
 use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function __construct()
+{
+    Auth::admin();
+}
     public function index(): void
     {
         if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {

@@ -21,6 +21,10 @@ class ComposerStaticInitfb3cc35e6813ff390931a89566ae5082
             'Razorpay\\Tests\\' => 15,
             'Razorpay\\Api\\' => 13,
         ),
+        'F' =>
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'A' =>
         array (
             'App\\' => 4,
@@ -39,6 +43,10 @@ class ComposerStaticInitfb3cc35e6813ff390931a89566ae5082
         'Razorpay\\Api\\' =>
         array (
             0 => __DIR__ . '/..' . '/razorpay/razorpay/src',
+        ),
+        'Firebase\\JWT\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'App\\' =>
         array (

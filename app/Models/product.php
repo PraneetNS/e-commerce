@@ -134,5 +134,14 @@ public function countProducts(): int
 {
     return (int)$this->db->query("SELECT COUNT(*) FROM products")->fetchColumn();
 }
+public function paginate(int $start, int $limit): array
+{
+    $sql = "SELECT * FROM products ORDER BY created_at DESC LIMIT :start, :limit";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':start', $start, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
 
 }
