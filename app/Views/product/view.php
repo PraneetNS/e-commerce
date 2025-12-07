@@ -83,3 +83,21 @@
 </div>
 <?php endif; ?>
 
+<?php if (!empty($alsoBought)): ?>
+<hr>
+<h3>Customers who bought this also bought</h3>
+<div class="row">
+<?php foreach ($alsoBought as $ab): ?>
+  <div class="col-md-3">
+    <div class="card mb-3">
+      <img src="/ecommerce-mvc/public<?= $ab['image'] ?>" class="card-img-top" style="height:150px; object-fit:cover;">
+      <div class="card-body">
+        <p class="card-title"><?= $ab['name'] ?></p>
+        <p class="text-success mb-1">₹<?= $ab['price'] ?></p>
+        <a href="/ecommerce-mvc/public/product/show/<?= $ab['id'] ?>" class="btn btn-sm btn-outline-primary">View</a>
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php endif; ?>

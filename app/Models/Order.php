@@ -112,6 +112,25 @@ public function monthlyStats(): array
     $stmt = $this->db->query($sql);
     return $stmt->fetchAll();
 }
+public function alsoBought(int $productId, int $limit = 4): array
+{
+    $sql = "
+        SELECT p.*, SUM(oi2.qty) as total_qty
+        FROM order_items oi
+        JOIN order_items oi2 ON oi.order_id = oi2.order_id
+        JOIN products p ON oi2.product_id = p.id
+        WHERE oi.product_id = :pid
+          AND oi2.product_id != :pid
+        GROUP BY oi2.product_id
+        ORDER BY total_qty DESC
+        LIMIT :lim
+    ";
 
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':pid', $productId, \PDO::PARAM_INT);
+    $stmt->bindValue(':lim', $limit, \PDO::PARAM_INT);
+    $stmt->execute();
 
+    return $stmt->fetchAll();
+}
 }

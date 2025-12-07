@@ -8,7 +8,7 @@ use App\Middleware\Auth;
 use App\Models\Review;
 use App\Core\Controller;
 use App\Models\Product;
-
+use App\Models\Order;
 class ProductController extends Controller
 {
     public function __construct()
@@ -151,6 +151,8 @@ public function delete(int $id): void
     $_SESSION['success'] = "Product deleted successfully";
     $this->redirect('/product/index');
 }
+
+
 public function show(int $id): void
 {
     $productModel = new Product();
@@ -160,21 +162,17 @@ public function show(int $id): void
         $_SESSION['error'] = "Product not found";
         $this->redirect('/home/index');
     }
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    die("Invalid CSRF token");
-}
 
-    // Track recently viewed
-    $_SESSION['recently_viewed'][$id] = $product;
-    // Keep only last 5 items
-    $_SESSION['recently_viewed'] = array_slice($_SESSION['recently_viewed'], -5, 5, true);
+    // Recently viewed & reviews already here...
 
-    $reviewModel = new Review();
-    $reviews = $reviewModel->getByProduct($id);
+    $orderModel = new Order();
+    $alsoBought = $orderModel->alsoBought($id);
 
     $this->view('product/show', [
         'product' => $product,
-        'reviews' => $reviews
+        'reviews' => $reviews,
+        'related' => $related,
+        'alsoBought' => $alsoBought
     ]);
 }
 
