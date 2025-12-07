@@ -5,38 +5,38 @@ namespace App\Core;
 
 class ApiApp
 {
-    protected string $controller = 'ApiHomeController';
+    protected string $controllerName = 'ApiHomeController';
     protected string $method = 'index';
     protected array $params = [];
+    protected object $controller;
 
     public function __construct()
     {
         $url = $_GET['url'] ?? '';
         $url = trim($url, '/');
-        $urlParts = $url ? explode('/', $url) : [];
+        $parts = $url ? explode('/', $url) : [];
 
-        if (!empty($urlParts[0])) {
-            $possible = 'Api' . ucfirst($urlParts[0]) . 'Controller';
+        if (!empty($parts[0])) {
+            $possible = 'Api' . ucfirst($parts[0]) . 'Controller';
             if (file_exists(__DIR__ . '/../Controllers/' . $possible . '.php')) {
-                $this->controller = $possible;
-                unset($urlParts[0]);
+                $this->controllerName = $possible;
+                unset($parts[0]);
             }
         }
 
-        $controllerClass = 'App\\Controllers\\' . $this->controller;
-        $this->controller = new $controllerClass();
+        $class = 'App\\Controllers\\' . $this->controllerName;
+        $this->controller = new $class;
 
-        if (!empty($urlParts[1]) && method_exists($this->controller, $urlParts[1])) {
-            $this->method = $urlParts[1];
-            unset($urlParts[1]);
+        if (!empty($parts[1]) && method_exists($this->controller, $parts[1])) {
+            $this->method = $parts[1];
+            unset($parts[1]);
         }
 
-        $this->params = $urlParts ? array_values($urlParts) : [];
+        $this->params = $parts ? array_values($parts) : [];
     }
 
     public function run(): void
     {
-        header('Content-Type: application/json');
         call_user_func_array([$this->controller, $this->method], $this->params);
     }
 }

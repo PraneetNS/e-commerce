@@ -50,3 +50,27 @@ new Chart(ctx, {
     }
 });
 </script>
+<hr>
+<h3>Top Selling Products</h3>
+<div class="row">
+<?php foreach ($topSelling as $ts): ?>
+  <div class="col-md-3">
+    <div class="card p-2 mb-3">
+      <img src="/ecommerce-mvc/public<?= $ts['image'] ?>" style="height:140px; object-fit:cover;">
+      <p class="mt-2"><?= $ts['name'] ?></p>
+      <p class="text-success"><strong><?= $ts['total_sold'] ?> sold</strong></p>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+
+<hr>
+<h3>Low Stock Alerts</h3>
+<ul class="list-group">
+<?php foreach ($lowStock as $ls): ?>
+  <li class="list-group-item d-flex justify-content-between">
+    <?= $ls['name'] ?>
+    <span class="text-danger">Stock: <?= $ls['stock'] ?></span>
+  </li>
+<?php endforeach; ?>
+</ul>

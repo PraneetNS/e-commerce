@@ -18,26 +18,28 @@ class AdminDashboardController extends Controller
     Auth::admin();
 }
     public function index(): void
-    {
-        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            $_SESSION['error'] = "Unauthorized";
-            $this->redirect('/home/index');
-        }
+{
+    Auth::admin();
 
-        $orderModel = new Order();
-        $productModel = new Product();
-        $userModel = new User();
+    $orderModel = new Order();
+    $productModel = new Product();
+    $userModel = new User();   // <--- FIX
 
-        $stats = [
-            'orders'   => $orderModel->countOrders(),
-            'revenue'  => $orderModel->totalRevenue(),
-            'products' => $productModel->countProducts(),
-            'users'    => $userModel->countUsers(),
-            'chartData' => $orderModel->monthlyStats()
-        ];
+    $stats = [
+        'orders'   => $orderModel->countOrders(),
+        'revenue'  => $orderModel->totalRevenue(),
+        'products' => $productModel->countProducts(),
+        'users'    => $userModel->countUsers()
+    ];
 
-        $this->view('admin/dashboard', [
-            'stats' => $stats
-        ]);
-    }
+    $topSelling = $orderModel->topSelling();
+    $lowStock   = $orderModel->lowStock();
+
+    $this->view('admin/dashboard', [
+        'stats'      => $stats,
+        'topSelling' => $topSelling,
+        'lowStock'   => $lowStock
+    ]);
+}
+
 }

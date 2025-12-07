@@ -11,10 +11,7 @@ use App\Models\Product;
 use App\Models\Order;
 class ProductController extends Controller
 {
-    public function __construct()
-{
-    Auth::admin();
-}
+ 
     public function index(): void
     {
         if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
@@ -164,6 +161,10 @@ public function show(int $id): void
     }
 
     // Recently viewed & reviews already here...
+$reviewModel = new Review();
+$reviews = $reviewModel->getByProduct($id);
+
+$related = $productModel->related($product['category_id'], $id);
 
     $orderModel = new Order();
     $alsoBought = $orderModel->alsoBought($id);

@@ -98,10 +98,7 @@ public function countOrders(): int
     return (int)$this->db->query("SELECT COUNT(*) FROM orders")->fetchColumn();
 }
 
-public function totalRevenue(): float
-{
-    return (float)$this->db->query("SELECT SUM(total) FROM orders WHERE status='paid' OR status='completed'")->fetchColumn();
-}
+
 
 public function monthlyStats(): array
 {
@@ -114,23 +111,57 @@ public function monthlyStats(): array
 }
 public function alsoBought(int $productId, int $limit = 4): array
 {
+    $limit = (int)$limit;
+
     $sql = "
-        SELECT p.*, SUM(oi2.qty) as total_qty
+        SELECT p.*, SUM(oi2.qty) AS total_qty
         FROM order_items oi
         JOIN order_items oi2 ON oi.order_id = oi2.order_id
         JOIN products p ON oi2.product_id = p.id
         WHERE oi.product_id = :pid
-          AND oi2.product_id != :pid
+          AND oi2.product_id != :pid2
         GROUP BY oi2.product_id
         ORDER BY total_qty DESC
-        LIMIT :lim
+        LIMIT $limit
     ";
 
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':pid', $productId, \PDO::PARAM_INT);
-    $stmt->bindValue(':lim', $limit, \PDO::PARAM_INT);
+    $stmt->bindValue(':pid2', $productId, \PDO::PARAM_INT);
+
     $stmt->execute();
 
     return $stmt->fetchAll();
 }
+// Total Revenue
+public function totalRevenue(): float
+{
+    $sql = "SELECT SUM(total_amount) AS revenue FROM orders";
+    $stmt = $this->db->query($sql);
+    $row = $stmt->fetch();
+    return (float)($row['revenue'] ?? 0);
+}
+
+
+// Top Selling Products
+public function topSelling(int $limit = 5): array
+{
+    $sql = "
+        SELECT p.name, p.image, SUM(oi.qty) AS total_sold
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.id
+        GROUP BY oi.product_id
+        ORDER BY total_sold DESC
+        LIMIT $limit
+    ";
+    return $this->db->query($sql)->fetchAll();
+}
+
+// Low Stock Alerts
+public function lowStock(int $limit = 5): array
+{
+    $sql = "SELECT id, name, stock FROM products WHERE stock < 5 ORDER BY stock ASC LIMIT $limit";
+    return $this->db->query($sql)->fetchAll();
+}
+
 }
