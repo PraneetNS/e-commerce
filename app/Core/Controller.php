@@ -5,21 +5,17 @@ namespace App\Core;
 
 abstract class Controller
 {
-    protected function view(string $view, array $data = []): void
-    {
-        // Make array keys available as variables in view
-        extract($data);
+    public function view(string $view, array $data = []): void
+{
+    extract($data);
 
-        // Full path of the view file (e.g. home/index.php)
-        $viewFile = __DIR__ . '/../Views/' . $view . '.php';
+    ob_start(); 
+    require dirname(__DIR__) . "/Views/$view.php";
+    $content = ob_get_clean();
 
-        if (!file_exists($viewFile)) {
-            throw new \RuntimeException("View '{$view}' not found.");
-        }
+    require dirname(__DIR__) . "/Views/layouts/main.php";
+}
 
-        // Layout will include the view
-        require __DIR__ . '/../Views/layouts/main.php';
-    }
 
     // For including partials inside layouts if needed
     protected function renderPartial(string $view, array $data = []): void

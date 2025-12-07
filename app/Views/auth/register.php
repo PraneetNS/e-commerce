@@ -1,27 +1,29 @@
-<h1>Register</h1>
+<div class="d-flex justify-content-center">
+  <form action="/ecommerce-mvc/public/auth/registerSubmit" method="post" class="card shadow p-4 mt-4" style="width: 400px;">
+    <h3 class="text-center mb-3">Create Account</h3>
 
-<?php if (!empty($_SESSION['error'])): ?>
-    <p style="color:red"><?= $_SESSION['error'] ?></p>
-    <?php unset($_SESSION['error']); ?>
-<?php endif; ?>
-
-<form action="<?= $baseUrl ?>/auth/registerSubmit" method="post">
-<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
 
 
-    <label>Name:</label><br>
-    <input type="text" name="name" required><br><br>
+    <div class="mb-3">
+      <label class="form-label">Full Name</label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" required>
+    </div>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
 
-    <label>Confirm Password:</label><br>
-    <input type="password" name="confirm_password" required><br><br>
+    <button class="btn btn-primary w-100">Register</button>
 
-    <button type="submit">Register</button>
-</form>
-
-<p>Already have an account? <a href="/auth/login">Login</a></p>
+    <p class="text-center mt-2">
+        Already have an account? <a href="/ecommerce-mvc/public/auth/login">Login</a>
+    </p>
+  </form>
+</div>
