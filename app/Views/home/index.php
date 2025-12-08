@@ -31,32 +31,6 @@
     </div>
 
 </form>
-<form method="get" class="row mb-3">
-    <div class="col-md-4">
-        <input type="text" name="search" value="<?= $search ?>" class="form-control" placeholder="Search product...">
-    </div>
-
-    <div class="col-md-3">
-        <select name="sort" class="form-control">
-            <option value="latest" <?= $sort == 'latest' ? 'selected' : '' ?>>Latest</option>
-            <option value="price_low" <?= $sort == 'price_low' ? 'selected' : '' ?>>Price: Low to High</option>
-            <option value="price_high" <?= $sort == 'price_high' ? 'selected' : '' ?>>Price: High to Low</option>
-        </select>
-    </div>
-
-    <div class="col-md-3">
-        <select name="category" class="form-control">
-            <option value="">All Categories</option>
-            <?php foreach ($categories as $c): ?>
-                <option value="<?= $c['id'] ?>"><?= $c['name'] ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-
-    <div class="col-md-2">
-        <button class="btn btn-primary w-100">Apply</button>
-    </div>
-</form>
 
 
 <h1 class="mb-4">Featured Products</h1>
