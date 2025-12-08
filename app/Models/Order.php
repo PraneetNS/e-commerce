@@ -136,11 +136,13 @@ public function alsoBought(int $productId, int $limit = 4): array
 // Total Revenue
 public function totalRevenue(): float
 {
-    $sql = "SELECT SUM(total_price) AS revenue FROM orders";
+    $sql = "SELECT SUM(total) AS revenue FROM orders";
     $stmt = $this->db->query($sql);
     $row = $stmt->fetch();
     return (float)($row['revenue'] ?? 0);
 }
+
+
 
 
 // Top Selling Products
@@ -166,8 +168,8 @@ public function lowStock(int $limit = 5): array
 public function monthlySales(): array
 {
     $sql = "
-        SELECT DATE_FORMAT(created_at, '%b') AS month, 
-               SUM(amount) AS revenue
+        SELECT DATE_FORMAT(created_at, '%b') AS month,
+               SUM(total) AS revenue
         FROM orders
         GROUP BY MONTH(created_at)
         ORDER BY MONTH(created_at)
@@ -176,5 +178,7 @@ public function monthlySales(): array
     $stmt = $this->db->query($sql);
     return $stmt->fetchAll();
 }
+
+
 
 }

@@ -95,6 +95,32 @@ public function getByCategory(int $categoryId): array
     $stmt->execute(['cid' => $categoryId]);
     return $stmt->fetchAll();
 }
+
+public function related(?int $categoryId, int $excludeId): array
+
+{
+    $sql = "SELECT * FROM products WHERE category_id = :cid AND id != :pid LIMIT 4";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute(['cid' => $categoryId, 'pid' => $excludeId]);
+    return $stmt->fetchAll();
+    if ($categoryId === null) {
+    return [];
+}
+
+}
+public function countProducts(): int
+{
+    return (int)$this->db->query("SELECT COUNT(*) FROM products")->fetchColumn();
+}
+public function paginate(int $start, int $limit): array
+{
+    $sql = "SELECT * FROM products ORDER BY created_at DESC LIMIT :start, :limit";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
 public function filterProducts(?string $min, ?string $max, ?string $sort): array
 {
     $sql = "SELECT * FROM products WHERE 1=1";
@@ -123,30 +149,6 @@ public function filterProducts(?string $min, ?string $max, ?string $sort): array
 
     return $stmt->fetchAll();
 }
-public function related(?int $categoryId, int $excludeId): array
 
-{
-    $sql = "SELECT * FROM products WHERE category_id = :cid AND id != :pid LIMIT 4";
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute(['cid' => $categoryId, 'pid' => $excludeId]);
-    return $stmt->fetchAll();
-    if ($categoryId === null) {
-    return [];
-}
-
-}
-public function countProducts(): int
-{
-    return (int)$this->db->query("SELECT COUNT(*) FROM products")->fetchColumn();
-}
-public function paginate(int $start, int $limit): array
-{
-    $sql = "SELECT * FROM products ORDER BY created_at DESC LIMIT :start, :limit";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
-    $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll();
-}
 
 }

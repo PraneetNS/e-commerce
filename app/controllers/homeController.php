@@ -28,6 +28,11 @@ $start = ($page - 1) * $limit;
 $products = $productModel->paginate($start, $limit);
 $total = $productModel->countProducts();
 $pages = ceil($total / $limit);
+$search = $_GET['search'] ?? '';
+$categoryId = $_GET['category'] ?? null;
+$sort = $_GET['sort'] ?? 'latest';
+
+$filteredProducts = $productModel->filterProducts($search, $categoryId, $sort);
 
 }
 
