@@ -63,6 +63,26 @@ new Chart(ctx, {
   </div>
 <?php endforeach; ?>
 </div>
+<hr>
+<h3>Revenue Growth Chart</h3>
+<canvas id="revenueChart" height="100"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctxR = document.getElementById('revenueChart');
+
+new Chart(ctxR, {
+    type: 'line',
+    data: {
+        labels: <?= json_encode(array_column($monthlySales, 'month')) ?>,
+        datasets: [{
+            label: 'Revenue',
+            data: <?= json_encode(array_column($monthlySales, 'revenue')) ?>,
+            borderWidth: 3
+        }]
+    },
+});
+</script>
 
 <hr>
 <h3>Low Stock Alerts</h3>

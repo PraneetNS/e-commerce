@@ -31,15 +31,18 @@ class AdminDashboardController extends Controller
         'products' => $productModel->countProducts(),
         'users'    => $userModel->countUsers()
     ];
+$monthlySales = $orderModel->monthlySales();
 
     $topSelling = $orderModel->topSelling();
     $lowStock   = $orderModel->lowStock();
 
     $this->view('admin/dashboard', [
-        'stats'      => $stats,
-        'topSelling' => $topSelling,
-        'lowStock'   => $lowStock
-    ]);
+    'stats'      => $stats,
+    'topSelling' => $topSelling,
+    'lowStock'   => $lowStock,
+    'monthlySales' => $monthlySales
+]);
+
 }
 
 }
