@@ -121,10 +121,20 @@ public function paginate(int $start, int $limit): array
     $stmt->execute();
     return $stmt->fetchAll();
 }
-public function filterProducts(?string $min, ?string $max, ?string $sort): array
+public function advancedFilter(?string $search, ?int $categoryId, ?string $min, ?string $max, ?string $sort): array
 {
     $sql = "SELECT * FROM products WHERE 1=1";
     $params = [];
+
+    if (!empty($search)) {
+        $sql .= " AND name LIKE :search";
+        $params['search'] = "%$search%";
+    }
+
+    if (!empty($categoryId)) {
+        $sql .= " AND category_id = :cid";
+        $params['cid'] = $categoryId;
+    }
 
     if (!empty($min)) {
         $sql .= " AND price >= :min";
@@ -136,12 +146,18 @@ public function filterProducts(?string $min, ?string $max, ?string $sort): array
         $params['max'] = $max;
     }
 
-    if ($sort === "low-high") {
-        $sql .= " ORDER BY price ASC";
-    } elseif ($sort === "high-low") {
-        $sql .= " ORDER BY price DESC";
-    } elseif ($sort === "newest") {
-        $sql .= " ORDER BY created_at DESC";
+    switch ($sort) {
+        case "low-high":
+            $sql .= " ORDER BY price ASC";
+            break;
+        case "high-low":
+            $sql .= " ORDER BY price DESC";
+            break;
+        case "newest":
+            $sql .= " ORDER BY created_at DESC";
+            break;
+        default:
+            $sql .= " ORDER BY created_at DESC";
     }
 
     $stmt = $this->db->prepare($sql);
@@ -149,6 +165,7 @@ public function filterProducts(?string $min, ?string $max, ?string $sort): array
 
     return $stmt->fetchAll();
 }
+
 
 
 }

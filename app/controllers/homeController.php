@@ -29,10 +29,12 @@ $products = $productModel->paginate($start, $limit);
 $total = $productModel->countProducts();
 $pages = ceil($total / $limit);
 $search = $_GET['search'] ?? '';
-$categoryId = $_GET['category'] ?? null;
+$categoryId = isset($_GET['category']) && $_GET['category'] !== '' 
+                ? (int)$_GET['category'] 
+                : null;
+
 $sort = $_GET['sort'] ?? 'latest';
 
-$filteredProducts = $productModel->filterProducts($search, $categoryId, $sort);
 
 }
 
@@ -58,20 +60,28 @@ $filteredProducts = $productModel->filterProducts($search, $categoryId, $sort);
 }
 public function filter(): void
 {
-    $min  = $_GET['min'] ?? null;
-    $max  = $_GET['max'] ?? null;
-    $sort = $_GET['sort'] ?? null;
-
     $productModel = new Product();
-    $products = $productModel->filterProducts($min, $max, $sort);
+    $categoryModel = new Category();
 
-    $catModel = new Category();
-    $categories = $catModel->all();
+    $min = $_GET['min'] ?? null;
+    $max = $_GET['max'] ?? null;
+    $sort = $_GET['sort'] ?? null;
+    $search = $_GET['search'] ?? null;
 
-    $this->view('home/index', [
-        'products' => $products,
-        'categories' => $categories
+    $categoryId = isset($_GET['category']) && $_GET['category'] !== ""
+                    ? (int)$_GET['category']
+                    : null;
+
+    $products = $productModel->advancedFilter($search, $categoryId, $min, $max, $sort);
+    $categories = $categoryModel->all();
+
+    $this->view("home/index", [
+        "products" => $products,
+        "categories" => $categories,
+        "search" => $search,
+        "sort" => $sort
     ]);
 }
+
 
 }
